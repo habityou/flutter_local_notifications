@@ -699,10 +699,10 @@ public class FlutterLocalNotificationsPlugin
       AlarmManager alarmManager,
       long epochMilli,
       PendingIntent pendingIntent) {
-    if (notificationDetails?.scheduleMode?.useAllowWhileIdle() ?? false) {
+    if (notificationDetails != null && notificationDetails.scheduleMode!=null && notificationDetails.scheduleMode.useAllowWhileIdle() == true) {
       setupAllowWhileIdleAlarm(notificationDetails, alarmManager, epochMilli, pendingIntent);
     } else {
-      if (notificationDetails?.scheduleMode?.useExactAlarm() ?? false) {
+      if (notificationDetails != null && notificationDetails.scheduleMode!=null && notificationDetails.scheduleMode.useExactAlarm() == true) {
         checkCanScheduleExactAlarms(alarmManager);
         AlarmManagerCompat.setExact(
             alarmManager, AlarmManager.RTC_WAKEUP, epochMilli, pendingIntent);
