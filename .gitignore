@@ -1,8 +1,0 @@
-pubspec.lock
-.vscode
-*.idea
-*.DS_Store
-.dart_tool
-
-# Melos
-pubspec_overrides.yaml
