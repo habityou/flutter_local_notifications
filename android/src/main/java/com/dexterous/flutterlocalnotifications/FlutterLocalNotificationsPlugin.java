@@ -699,6 +699,7 @@ public class FlutterLocalNotificationsPlugin
       AlarmManager alarmManager,
       long epochMilli,
       PendingIntent pendingIntent) {
+        //added null check
     if (notificationDetails != null && notificationDetails.scheduleMode!=null && notificationDetails.scheduleMode.useAllowWhileIdle() == true) {
       setupAllowWhileIdleAlarm(notificationDetails, alarmManager, epochMilli, pendingIntent);
     } else {
