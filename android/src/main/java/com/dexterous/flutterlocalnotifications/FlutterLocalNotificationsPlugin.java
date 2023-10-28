@@ -674,13 +674,20 @@ public class FlutterLocalNotificationsPlugin
       AlarmManager alarmManager,
       long epochMilli,
       PendingIntent pendingIntent) {
+
+    if (notificationDetails.scheduleMode == null) {
+      // This is to account for notifications created in older versions prior to allowWhileIdle
+      // being added so the deserialiser.
+      // Reference to old behaviour:
+      // https://github.com/MaikuB/flutter_local_notifications/blob/4b723e750d1371206520b10a122a444c4bba7475/flutter_local_notifications/android/src/main/java/com/dexterous/flutterlocalnotifications/FlutterLocalNotificationsPlugin.java#L642
+      notificationDetails.scheduleMode = ScheduleMode.inexact;
+    }
+
     // added null check
-    if (notificationDetails != null && notificationDetails.scheduleMode != null
-        && notificationDetails.scheduleMode.useAllowWhileIdle() == true) {
+    if (notificationDetails.scheduleMode.useAllowWhileIdle()) {
       setupAllowWhileIdleAlarm(notificationDetails, alarmManager, epochMilli, pendingIntent);
     } else {
-      if (notificationDetails != null && notificationDetails.scheduleMode != null
-          && notificationDetails.scheduleMode.useExactAlarm() == true) {
+      if (notificationDetails.scheduleMode.useExactAlarm()) {
         checkCanScheduleExactAlarms(alarmManager);
         AlarmManagerCompat.setExact(
             alarmManager, AlarmManager.RTC_WAKEUP, epochMilli, pendingIntent);
